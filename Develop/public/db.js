@@ -15,7 +15,7 @@ request.onsuccess = function(event) {
 };
 
 request.onerror = function(event) {
-    console.log("error", event);
+    console.log("error", event.target.errorCode);
 };
 
 function saveRecord(record) {
@@ -46,9 +46,11 @@ function checkDatabase() {
             })
             .then(response => response.json())
             .then(() => {
-                const clearTransaction = db.transaction(["pending"], "readwrite");
-                const pendingStore =
-                const clearAll =
+                const transaction = db.transaction(["pending"], "readwrite");
+
+                const store = transaction.objectStore("pending");
+
+                store.clear();
             });
         }
     };
